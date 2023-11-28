@@ -30,6 +30,13 @@ turkey_group.add(turkey)
 # for _ in range(5):
 #     fishes.add(Fish(random.randint(SCREEN_WIDTH, SCREEN_WIDTH * 2), random.randint(TILE_SIZE, SCREEN_HEIGHT - TILE_SIZE)))
 
+
+
+add_cow(5)
+for _ in range(5):
+    cows.add(Cow(random.randint(0, SCREEN_WIDTH/2), cow.y_pos)
+
+
 #main loop
 run = True
 background = screen.copy()

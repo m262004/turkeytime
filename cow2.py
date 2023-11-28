@@ -1,11 +1,13 @@
-import
+import pygame as p
+import random
+from game_parameters import *
 
-class Cow(pygame.sprite.Sprite):
+class Cow(p.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
 
-        self.image = pygame.image.load("../assets/sprites/green_fish.png").convert()
-        self.image = pygame.transform.flip(self.image, True, False)
+        self.image = p.image.load("assets/cow.png").convert()
+        self.image = p.transform.scale(self.image, (COW_WIDTH, COW_HEIGHT))
 
         self.image.set_colorkey((0, 0, 0))
         self.rect = self.image.get_rect()
@@ -15,14 +17,14 @@ class Cow(pygame.sprite.Sprite):
 
         self.rect.center = (x, y)
 
-        self.speed = random.uniform(MIN_SPEED, MAX_SPEED)
+        self.speed = random.uniform(COW_SPEED_MIN, COW_SPEED_MAX)
 
     def update(self):
-        self.x -= self.speed
+        self.x += self.speed
         self.rect.x = self.x
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
 
-fishes = pygame.sprite.Group()
+cows = p.sprite.Group()

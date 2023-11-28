@@ -16,6 +16,10 @@ FENCE_Y_POS = 600
 TURKEY_START_X = 50
 TURKEY_START_Y = SCREEN_WIDTH/2
 
+# cow dimensions
+COW_WIDTH = int(7510/100)
+COW_HEIGHT = int(4240/100)
+
 # speeds are in pixels per frame and frame rate is 1/60 seconds
 TURKEY_SPEED = 3
 COW_SPEED_MIN = 0.5
