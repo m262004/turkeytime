@@ -8,7 +8,7 @@ from cow2 import *
 
 p.init()
 p.mixer.init()
-
+ 
 #create screen
 screen = p.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 p.display.set_caption("Turkey Time")
