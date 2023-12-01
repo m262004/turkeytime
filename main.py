@@ -7,24 +7,31 @@ from utilities import *
 from cow2 import *
 
 p.init()
+p.mixer.init()
+
 #create screen
 screen = p.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 p.display.set_caption("Turkey Time")
 clock = p.time.Clock()
 
 #create turkey sprite group
-#turkey = Turkey()
-turkey_group = p.sprite.Group()
-turkey_group.add(Turkey())
+turkey = p.sprite.Group()
+turkey.add(Turkey())
 
-# #create cow groups
-# cows = Cow()
-# cow_group = p.sprite.Group()
-# cow_group.add(cows)
-
-#
+# create fence opening sprite group
 fo_group = p.sprite.Group()
 fo_group.add(FenceOpening())
+
+# initialize misc items
+level = 1
+bkgd_music = p.mixer.Sound("assets/backgroundmusic.wav")
+moo = p.mixer.Sound("assets/moo.wav")
+heart = p.image.load("assets/heart.png").convert()
+heart = p.transform.scale(heart, (HEART_SIZE,HEART_SIZE))
+
+#life_icon.set_colorkey((0, 0, 0))
+#clock = p.time.Clock()
+lives = NUM_LIVES
 
 #main loop
 run = True
@@ -32,54 +39,69 @@ background = screen.copy()
 draw_background(background)
 add_cow(1,200)
 
+#while lives > 0:
 while run:
     #set frame rate
     clock.tick(60)
+
     for event in p.event.get():
         if event.type == p.QUIT:
             run = False
 
+    # play background music
+    bkgd_music.play(loops=-1)
+
     # draw the background
     screen.blit(background, (0, 0))
 
-    # #check for turkey-cow collision and fence opening collision
-    # cow_collision = p.sprite.spritecollide(turkey, cows, True)
-    # fo_collision = p.sprite.spritecollide(turkey, fo, True)
-    # if cow_collision:
-    #     turkey.x = TURKEY_START_X
-    #     turkey.y = TURKEY_START_Y
-    # if fo_collision:
-    #    cows.empty()
-    #    if SCORE == 2:
-    #    add_cows()
-    #go to next level
-    #    if SCORE == 3:
-    #    add_cows()
-    #go to next level
-    #    if SCORE == 4:
-    #     turkey_group.empty()
-    #     cow_group.empty()
-    #     screen.blit(winscreen, (0,0))
-    #     #go to next level
+    #update game objects
+    cows.update()
+    turkey.update()
+    fo_group.update()
 
-        # title_font = p.font.Font("assets/gamefont.ttf", 48)
-        # wintext = title_font.render("You Win", True, (0, 0, 0))
-        # surf.blit(wintext, (SCREEN_WIDTH / 2 - wintext.get_width() / 2, 0))
+    #check for turkey-cow collision and fence opening collision
+    cow_collision = p.sprite.spritecollide(turkey, cows, False)
+    fo_collision = p.sprite.spritecollide(turkey, fo_group, False)
+    if cow_collision:
+        turkey.x = TURKEY_START_X
+        turkey.y = TURKEY_START_Y
+        lives -= len(cow_collision)
+        p.mixer.Sound.play(moo)
+    if fo_collision:
+        level += 1
+        cows.empty()
+        if level == 2:
+            add_cow()
+        if level == 3:
+            add_cow()
+        if level == 4:
+            add_cow()
+        #end screen
+        if level > 4:
+            winfont = p.font.Font("assets/gamefont.ttf", 48)
+            text = winfont.render("You Win!", True, (255, 0, 0))
+            screen.blit(text, (SCREEN_WIDTH / 2 - text.get_width() / 2, 100))
+            #play again button
 
 
+    # if cow goes off screen
+    for cow in cows:
+        if cow.rect.x > SCREEN_WIDTH:
+            cows.remove(cow)
+            add_cow(1, cow.y, 0)
 
-    #leveldisplay()
-    #check____
 
+    cows.draw(screen)
+    turkey.draw(screen)
+    fo_group.draw(screen)
 
-    #cow_group.draw(screen)
-    turkey_group.draw(screen)
-    #fo_group.draw(screen)
+    cows.update()
+    turkey.update()
+    fo_group.update()
 
-    #cow_group.update()
-    turkey_group.update()
-    #fo_group.update()
-
+    # draw the lives in the upper left corner
+    for i in range(lives):
+        screen.blit(heart, (i * HEART_SIZE, SCREEN_HEIGHT - HEART_SIZE))
 
     p.display.update()
 

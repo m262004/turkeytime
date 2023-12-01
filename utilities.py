@@ -1,6 +1,7 @@
 import time
 import pygame as p
 import random
+from cow2 import *
 
 import turkey
 from game_parameters import *
@@ -28,10 +29,10 @@ class FenceOpening(p.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = p.image.load('assets/grass.png')
-        #self.image = p.transform.scale(self.image, (FENCE_OPENING_WIDTH, FENCE_OPENING_HEIGHT))
+        self.image = p.transform.scale(self.image, (FENCE_OPENING_WIDTH, FENCE_OPENING_HEIGHT))
 
         self.x = random.randint(FENCE_WIDTH, SCREEN_WIDTH-FENCE_WIDTH)
-        self.y = FENCE_Y_POS
+        self.y = FENCE_Y_POS + FENCE_HEIGHT/2
 
         self.rect = self.image.get_rect()
 
@@ -73,3 +74,7 @@ LEVEL = 0
 def restart(turkey):
     turkey.x = TURKEY_START_X
     turkey.y = TURKEY_START_Y
+
+def add_cow(num_cows, y_pos, x_pos = random.randint(0, SCREEN_WIDTH)):
+    for i in range(num_cows):
+        cows.add(Cow(x_pos, y_pos))
