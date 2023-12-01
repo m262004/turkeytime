@@ -3,9 +3,12 @@ import random
 from game_parameters import *
 
 class Cow(p.sprite.Sprite):
-    def __init__(self, y_pos): #, num_cows):
+    def __init__(self, num_cow_rows): #y_pos): #, num_cows):
         super().__init__()
-        self.y = y_pos
+        self.num_cow_rows = num_cow_rows
+        for n in self.num_cow_rows:
+
+        self.y =
         self.image = p.image.load("assets/cow.png").convert()
         self.speed = random.randint(COW_SPEED_MIN, COW_SPEED_MAX)
         #start at middle of screen so you can't just straight shot
@@ -49,3 +52,4 @@ class Cow(p.sprite.Sprite):
 
 
 cows = p.sprite.Group()
+

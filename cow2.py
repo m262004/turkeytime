@@ -1,6 +1,7 @@
 import pygame as p
 import random
 from game_parameters import *
+from cow2 import *
 
 class Cow(p.sprite.Sprite):
     def __init__(self, x, y):
@@ -23,8 +24,20 @@ class Cow(p.sprite.Sprite):
         self.x += self.speed
         self.rect.x = self.x
 
+        if self.rect.x > SCREEN_WIDTH:
+            self.rect.x = -self.rect.width
+
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
 
 cows = p.sprite.Group()
+
+
+def add_cow(num_cows, y_pos):
+    for i in range(num_cows):
+        cows.add(Cow(random.randint(0, SCREEN_WIDTH), y_pos))
+        #sprite = Cow(-i * 100, y_pos, self.image)
+        #cows.add(sprite)
+
+        #

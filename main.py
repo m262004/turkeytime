@@ -1,8 +1,10 @@
+import random
 import pygame as p
 from game_parameters import *
+import sys
 from turkey import *
 from utilities import *
-from cow import *
+from cow2 import *
 
 p.init()
 #create screen
@@ -11,39 +13,27 @@ p.display.set_caption("Turkey Time")
 clock = p.time.Clock()
 
 #create turkey sprite group
-turkey = Turkey()
+#turkey = Turkey()
 turkey_group = p.sprite.Group()
-turkey_group.add(turkey)
+turkey_group.add(Turkey())
 
-#create cow groups
-#cow1 = Cow(SCREEN_HEIGHT/2)
-#cow2 = Cow(400,1)
-#cow_group = p.sprite.Group()
-#cow_group.add(cow1)
+# #create cow groups
+# cows = Cow()
+# cow_group = p.sprite.Group()
+# cow_group.add(cows)
 
-# fo = FenceOpening()
-# fo_group = p.sprite.Group()
-# fo_group.add(fo)
-
-
-# # place cows off the left side of the screen in random positions
-# for _ in range(5):
-#     fishes.add(Fish(random.randint(SCREEN_WIDTH, SCREEN_WIDTH * 2), random.randint(TILE_SIZE, SCREEN_HEIGHT - TILE_SIZE)))
-
-
-
-add_cow(5)
-for _ in range(5):
-    cows.add(Cow(random.randint(0, SCREEN_WIDTH/2), cow.y_pos)
-
+#
+fo_group = p.sprite.Group()
+fo_group.add(FenceOpening())
 
 #main loop
 run = True
 background = screen.copy()
 draw_background(background)
+add_cow(1,200)
 
 while run:
-    #fix frame rate so turkey not speedy
+    #set frame rate
     clock.tick(60)
     for event in p.event.get():
         if event.type == p.QUIT:
@@ -52,15 +42,42 @@ while run:
     # draw the background
     screen.blit(background, (0, 0))
 
+    # #check for turkey-cow collision and fence opening collision
+    # cow_collision = p.sprite.spritecollide(turkey, cows, True)
+    # fo_collision = p.sprite.spritecollide(turkey, fo, True)
+    # if cow_collision:
+    #     turkey.x = TURKEY_START_X
+    #     turkey.y = TURKEY_START_Y
+    # if fo_collision:
+    #    cows.empty()
+    #    if SCORE == 2:
+    #    add_cows()
+    #go to next level
+    #    if SCORE == 3:
+    #    add_cows()
+    #go to next level
+    #    if SCORE == 4:
+    #     turkey_group.empty()
+    #     cow_group.empty()
+    #     screen.blit(winscreen, (0,0))
+    #     #go to next level
+
+        # title_font = p.font.Font("assets/gamefont.ttf", 48)
+        # wintext = title_font.render("You Win", True, (0, 0, 0))
+        # surf.blit(wintext, (SCREEN_WIDTH / 2 - wintext.get_width() / 2, 0))
+
+
+
     #leveldisplay()
     #check____
 
-    turkey_group.draw(screen)
+
     #cow_group.draw(screen)
+    turkey_group.draw(screen)
     #fo_group.draw(screen)
 
-    turkey_group.update()
     #cow_group.update()
+    turkey_group.update()
     #fo_group.update()
 
 

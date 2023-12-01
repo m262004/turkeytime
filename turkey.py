@@ -41,5 +41,6 @@ class Turkey(p.sprite.Sprite):
             self.x = SCREEN_WIDTH - self.width/2
         if self.y - self.height/2 < 0:
             self.y = self.height/2
-        if self.y + self.height/2 > SCREEN_HEIGHT:
-            self.y = SCREEN_HEIGHT - self.height/2
+        if self.y + self.height/2 > FENCE_Y_POS:
+            self.y = FENCE_Y_POS - self.height/2
+
