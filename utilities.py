@@ -50,31 +50,28 @@ class FenceOpening(p.sprite.Sprite):
             # turkey.y = TURKEY_START_Y
 
 
-LEVEL = 0
-#level_font = p.font.Font("assets/gamefont.ttf", 80)
-
-#def leveldisplay():
-    #level_text = level_font.render(str(LEVEL) + ' /5', True, (0, 0, 0))
-    #screen.blit(level_text, (255, 10))
-
-    # def switchlevel():
-    #     global SCORE
-    #
-    #     if cow1.speed < 0:
-    #         cow1.speed -= 1
-    #     else:
-    #         cow1.speed += 1
-    #     if cow2.speed < 0:
-    #         cow2.speed -= 1
-    #     else:
-    #         cow2.speed += 1
-    #
-    #     SCORE += 1
-
-def restart(turkey):
-    turkey.x = TURKEY_START_X
-    turkey.y = TURKEY_START_Y
-
 def add_cow(num_cows, y_pos, x_pos = random.randint(0, SCREEN_WIDTH)):
     for i in range(num_cows):
         cows.add(Cow(x_pos, y_pos))
+
+
+class Hole(p.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = p.image.load('assets/hole.png')
+        self.image = p.transform.scale(self.image, (HOLE_WIDTH, HOLE_HEIGHT))
+
+        self.x = random.randint(HOLE_WIDTH, SCREEN_WIDTH - HOLE_WIDTH)
+        self.y = random.randint(150, 450)
+
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        #self.collision()
+        self.rect.center = (self.x, self.y)
+
+holes = p.sprite.Group()
+
+def add_hole(num_holes):
+    for i in range(num_holes):
+        holes.add(Hole())
