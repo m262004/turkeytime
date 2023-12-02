@@ -1,10 +1,10 @@
-import time
+import time, sys, random
 import pygame as p
-import random
 from cow2 import *
-
 import turkey
 from game_parameters import *
+from button import Button
+
 def draw_background(surf):
 # load images
     fenceog = p.image.load("assets/fence.png")
@@ -12,17 +12,41 @@ def draw_background(surf):
     grass = p.image.load("assets/grass.png").convert()
 # use the png transparency
     #fence.set_colorkey((0, 0, 0))
+
 # fill the screen with grass
     for x in range(0, SCREEN_WIDTH, TILE_SIZE):
         for y in range(0, SCREEN_HEIGHT, TILE_SIZE):
             surf.blit(grass, (x, y))
+
 # draw the fence along the bottom
     for x in range(0, SCREEN_WIDTH, FENCE_WIDTH):
         surf.blit(fence, (x, SCREEN_HEIGHT - FENCE_HEIGHT - 10))
+
 # draw the title at the top center of the screen
     title_font = p.font.Font("assets/gamefont.ttf", 48)
     text = title_font.render("Turkey Time", True, (0, 0, 0))
     surf.blit(text, (SCREEN_WIDTH / 2 - text.get_width() / 2, 10))
+
+# Define the countdown function
+# def countdown(time_in_sec, type_screen_here):
+#     # Loop until the time is zero
+#     while time_in_sec:
+#         # Format the time as minutes and seconds
+#         mins, secs = divmod(time_in_sec, 60)
+#         timeformat = '{:02d}:{:02d}'.format(mins, secs)
+#         # Print the time with a carriage return
+#         #print(timeformat, end='\r')
+#         time_font = p.font.Font("assets/gamefont.ttf", 24)
+#         time = time_font.render(timeformat, True, (0, 0, 0))
+#         type_screen_here.blit(time, (SCREEN_WIDTH - time.get_width(), 10))
+#         # Wait for one second
+#         time.sleep(1)
+#         # Decrement the time by one second
+#         time_in_sec -= 1
+#     for event in p.event.get():
+#         if event.type == p.QUIT:
+#             p.quit()
+#             sys.exit()
 
 
 class FenceOpening(p.sprite.Sprite):
@@ -35,19 +59,11 @@ class FenceOpening(p.sprite.Sprite):
         self.y = FENCE_Y_POS + FENCE_HEIGHT/2
 
         self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
 
     def update(self):
         #self.collision()
         self.rect.center = (self.x, self.y)
-
-    # def collision(self):
-    #     global SCORE, cow
-    #     fo_hit = p.sprite.spritecollide(self, cow_group, False)
-    #     if fo_hit:
-    #         if SCORE < 5:
-    #             switchlevel()
-            # turkey.x = TURKEY_START_X
-            # turkey.y = TURKEY_START_Y
 
 
 def add_cow(num_cows, y_pos, x_pos = random.randint(0, SCREEN_WIDTH)):
@@ -75,3 +91,18 @@ holes = p.sprite.Group()
 def add_hole(num_holes):
     for i in range(num_holes):
         holes.add(Hole())
+
+#set up option buttons
+# def get_font(size): # Returns font in the desired size
+#     return p.font.Font("assets/gamefont.ttf", size)
+#
+# PLAY_BUTTON = Button(image=p.image.load("assets/Play Rect.png"), pos=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 150),
+#                              text_input="PLAY", font=get_font(65), base_color="Black", hovering_color="White")
+# PLAY_AGAIN_BUTTON = Button(image=p.image.load("assets/Options Rect.png"), pos=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
+#                              text_input="PLAY", font=get_font(45), base_color="Black", hovering_color="White")
+# INSTRUCTIONS_BUTTON = Button(image=p.image.load("assets/Options Rect.png"), pos=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
+#                                 text_input="INSTRUCTIONS", font=get_font(65), base_color="Black", hovering_color="White")
+# INSTRUCTIONS_BACK = Button(image=None, pos=(640, 460),
+#                             text_input="BACK", font=get_font(65), base_color="Black", hovering_color="White")
+# QUIT_BUTTON = Button(image=p.image.load("assets/Quit Rect.png"), pos=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 150),
+#                              text_input="QUIT", font=get_font(65), base_color="Black", hovering_color="White")

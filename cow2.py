@@ -1,7 +1,7 @@
 import pygame as p
 import random
 from game_parameters import *
-from cow2 import *
+#from cow2 import *
 
 class Cow(p.sprite.Sprite):
     def __init__(self, x, y):
