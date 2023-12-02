@@ -91,18 +91,3 @@ holes = p.sprite.Group()
 def add_hole(num_holes):
     for i in range(num_holes):
         holes.add(Hole())
-
-#set up option buttons
-# def get_font(size): # Returns font in the desired size
-#     return p.font.Font("assets/gamefont.ttf", size)
-#
-# PLAY_BUTTON = Button(image=p.image.load("assets/Play Rect.png"), pos=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 150),
-#                              text_input="PLAY", font=get_font(65), base_color="Black", hovering_color="White")
-# PLAY_AGAIN_BUTTON = Button(image=p.image.load("assets/Options Rect.png"), pos=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
-#                              text_input="PLAY", font=get_font(45), base_color="Black", hovering_color="White")
-# INSTRUCTIONS_BUTTON = Button(image=p.image.load("assets/Options Rect.png"), pos=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
-#                                 text_input="INSTRUCTIONS", font=get_font(65), base_color="Black", hovering_color="White")
-# INSTRUCTIONS_BACK = Button(image=None, pos=(640, 460),
-#                             text_input="BACK", font=get_font(65), base_color="Black", hovering_color="White")
-# QUIT_BUTTON = Button(image=p.image.load("assets/Quit Rect.png"), pos=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 150),
-#                              text_input="QUIT", font=get_font(65), base_color="Black", hovering_color="White")

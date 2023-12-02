@@ -33,10 +33,3 @@ class Cow(p.sprite.Sprite):
 
 
 cows = p.sprite.Group()
-
-
-
-        #sprite = Cow(-i * 100, y_pos, self.image)
-        #cows.add(sprite)
-
-        #
