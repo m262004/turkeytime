@@ -49,23 +49,6 @@ def draw_background(surf):
 #             sys.exit()
 
 
-class FenceOpening(p.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.image = p.image.load('assets/grass.png')
-        self.image = p.transform.scale(self.image, (FENCE_OPENING_WIDTH, FENCE_OPENING_HEIGHT))
-
-        self.x = random.randint(FENCE_WIDTH, SCREEN_WIDTH-FENCE_WIDTH)
-        self.y = FENCE_Y_POS + FENCE_HEIGHT/2
-
-        self.rect = self.image.get_rect()
-        self.rect.center = (self.x, self.y)
-
-    def update(self):
-        #self.collision()
-        self.rect.center = (self.x, self.y)
-
-
 def add_cow(num_cows, y_pos, x_pos = random.randint(0, SCREEN_WIDTH)):
     for i in range(num_cows):
         cows.add(Cow(x_pos, y_pos))
@@ -83,7 +66,6 @@ class Hole(p.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
-        #self.collision()
         self.rect.center = (self.x, self.y)
 
 holes = p.sprite.Group()
@@ -91,3 +73,4 @@ holes = p.sprite.Group()
 def add_hole(num_holes):
     for i in range(num_holes):
         holes.add(Hole())
+

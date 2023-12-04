@@ -36,3 +36,4 @@ COW_SPEED_MAX = 2
 NUM_LIVES = 3
 
 
+
