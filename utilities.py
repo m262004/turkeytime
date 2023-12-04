@@ -4,6 +4,7 @@ from cow2 import *
 import turkey
 from game_parameters import *
 from button import Button
+from fenceopening import *
 
 def draw_background(surf):
 # load images
@@ -73,4 +74,9 @@ holes = p.sprite.Group()
 def add_hole(num_holes):
     for i in range(num_holes):
         holes.add(Hole())
+
+def add_fo(num_fo):
+    for i in range(num_fo):
+        fo_group.add(FenceOpening())
+
 

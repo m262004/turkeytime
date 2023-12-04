@@ -22,8 +22,8 @@ clock = p.time.Clock()
 turkey = Turkey()
 turkey_group = p.sprite.Group()
 turkey_group.add(turkey)
-fo_group = p.sprite.Group()
-fo_group.add(FenceOpening())
+#fo_group = p.sprite.Group()
+#fo_group.add(FenceOpening())
 
 # initialize misc items
 level = 1
@@ -54,10 +54,10 @@ except:
 run = True
 background = screen.copy()
 draw_background(background)
-add_hole(5)
+# add_hole(5)
 #add a specified number of cows at a random y position on the screen without overlapping the cows
 cowypos = list(range(TURKEY_START_Y + COW_HEIGHT + 10, FENCE_Y_POS - 10, COW_HEIGHT))
-add_cow(3, random.choice(cowypos))
+# add_cow(3, random.choice(cowypos))
 
 
 def get_font(size): # Returns font in the desired size
@@ -79,12 +79,23 @@ def draw_game_objects():
     cows.draw(screen)
     fo_group.draw(screen)
     turkey_group.draw(screen)
-    turkey_group.x = TURKEY_START_X
-    turkey_group.y = TURKEY_START_Y
+
+def update_game_objects():
+    cows.update()
+    turkey_group.update()
+    fo_group.update()
+    holes.update()
 def empty_groups():
     fo_group.empty()
     cows.empty()
-
+    holes.empty()
+def reset_level():
+    empty_groups()
+    add_cow(3, random.choice(cowypos))
+    add_hole(5)
+    add_fo(1)
+    draw_game_objects()
+    update_game_objects()
 
 
 # timer = 300 # 5 minutes in seconds
@@ -108,6 +119,7 @@ run = True
 def play():
     level = 1
     lives = NUM_LIVES
+    reset_level()
     while run:
         #set frame rate
         #clock.tick(60)
@@ -166,17 +178,21 @@ def play():
 
         if fo_collision:
             level += 1
-            turkey_group.rect.center = (TURKEY_START_X, TURKEY_START_Y)
-            #cows.empty()
+            #turkey_group.rect.center = (TURKEY_START_X, TURKEY_START_Y)
+            #empty_groups()
+            turkey.x = TURKEY_START_X
+            turkey.y = TURKEY_START_Y
+            #draw_game_objects()
+            reset_level()
             if level == 2:
                 add_cow(2, random.choice(cowypos))
                 add_hole(1)
             if level == 3:
-                add_cow(1, random.choice(cowypos))
+                #add_cow(1, random.choice(cowypos))
                 add_hole(1)
             if level == 4:
-                add_cow(2, random.choice(cowypos))
-                add_hole()
+                add_cow(3, random.choice(cowypos))
+                add_hole(1)
             #end screen
             if level > 4:
                 result_screen("win")
@@ -207,8 +223,7 @@ def play():
         clock.tick(60)
 
         if lives <= 0:
-            result = "lose"
-            result_screen()
+            result_screen("lose")
 
         p.display.update()
 
