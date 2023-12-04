@@ -80,3 +80,20 @@ def add_fo(num_fo):
         fo_group.add(FenceOpening())
 
 
+def load_high_score():
+    # Try to load the existing file and get the score from it
+    try:
+        with open("high_score.txt", "r") as file:
+            return int(file.read())
+    # If the file does not exist, set the score to zero
+    except FileNotFoundError:
+        return 0
+
+    if score > high_score:
+        high_score = score
+        save_high_scores(high_score)
+def save_high_scores(score):
+    with open("high_score.txt", "w") as file:
+        file.write(str(score))
+high_score = load_high_score()
+

@@ -1,7 +1,6 @@
 import random, sys, time
 import pygame as p
 import pygame.mixer
-
 from game_parameters import *
 from turkey import *
 from utilities import *
@@ -39,15 +38,7 @@ heart.set_colorkey((0, 0, 0))
 
 #code to have backgroudmusic.wav play in the background and moo.wav play when the sprite groups turkey_group and cows collide
 
-# Define the file name for saving and loading
-file_name = "game_data"
-# Try to load the existing file and get the score from it
-try:
-    with open(file_name, "rb") as file:
-        score = pickle.load(file)
-# If the file does not exist, set the score to zero
-except:
-    score = 0
+
 
 
 #main loop
@@ -112,34 +103,60 @@ def reset_level():
 # timeformat = ‘{:02d}:{:02d}’.format(mins, secs)
 # return timeformat
 
+#timer = 60  # 5 minutes in seconds
+timer_event = p.USEREVENT + 1  # create a custom event
+p.time.set_timer(timer_event, 1000)  # set the timer to trigger every second
+#level_font = p.font.Font("assets/gamefont.ttf", 24)
+#level_text = level_font.render(f"Level: {level} of 4", True, "White")
+
 run = True
-
-
 #define screens
 def play():
     level = 1
     lives = NUM_LIVES
     reset_level()
+    timer = 167 #in seconds
     while run:
         #set frame rate
-        #clock.tick(60)
-        timer = 300  # 5 minutes in seconds
-        timer_event = p.USEREVENT + 1  # create a custom event
-        p.time.set_timer(timer_event, 1000)  # set the timer to trigger every second
-        time_font = p.font.Font("assets/gamefont.ttf", 24)
-        time_text = time_font.render(f"{timer // 60:02d}:{timer % 60:02d}", True, (0, 0, 0))
-        #screen.blit(time_text, (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 30, 10))
+        clock.tick(60)
+        # time_font = p.font.Font("assets/gamefont.ttf", 24)
+        # time_text = time_font.render(f"{timer // 60:02d}:{timer % 60:02d}", True, (0, 0, 0))
+        # #screen.blit(time_text, (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 30, 10))
 
         # Call the countdown function with 5 minutes (300 seconds)
         #screen.blit(time_text, (SCREEN_WIDTH - time_text.get_width() - 10, 10))
+
+        # play background music
+        c1.play(bkgd_music, loops=-1)
+
+        # draw the background
+        screen.blit(background, (0, 0))
+
+        # draw the level
+        level_font = p.font.Font("assets/gamefont.ttf", 24)
+        level_text = level_font.render(f"Level: {level} of 4", True, "White")
+        screen.blit(level_text, (10, HEART_SIZE + 10))
+
+        # timer
+        # timer, time_text2 = 300, '10'.rjust(3)
+        # p.time.set_timer(p.USEREVENT, 1000)
+        time_font = p.font.Font("assets/gamefont.ttf", 24)
+        time_text = time_font.render(f"{timer // 60:02d}:{timer % 60:02d}", True, (0, 0, 0))
+        screen.blit(time_text, (SCREEN_WIDTH - 80, 30))
+
 
         for event in p.event.get():
             if event.type == p.QUIT:
                 p.quit()
                 sys.exit()
-            # if event.type == timer_event:
+            # if event.type == p.USEREVENT and timer >= 0:
             #     timer -= 1
-            #     time_text = time_font.render(f"{timer // 60:02d}:{timer % 60:02d}", True, (0, 0, 0))
+            #     #time_text = str(time).rjust(3)
+            if event.type == timer_event:
+                timer -= 1
+                time_text = time_font.render(f"{timer // 60:02d}:{timer % 60:02d}", True, (0, 0, 0))
+                if timer <= 0:
+                    result_screen("lose")
             if lives < 0: # or timer == 0:
                 result_screen("lose")
             if  p.key.get_pressed()[p.K_s]:
@@ -149,11 +166,6 @@ def play():
             # elif event.type == timer_event:
             #     timer -= 1
 
-        # play background music
-        c1.play(bkgd_music, loops=-1)
-
-        # draw the background
-        screen.blit(background, (0, 0))
 
         #update game objects
         cows.update()
@@ -298,15 +310,26 @@ def result_screen(result):
         mouse_pos = p.mouse.get_pos()
 
         if result == "win":
+            empty_groups()
             win_text = get_font(100).render("You Won!", True, "White")
-            screen.blit(win_text, (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 150))
-            #score = timeleft
-            #score_text = get_font(100).render(f"Score: {score}", True, "White")
-            #screen.blit(score_text, (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 100))
+            screen.blit(win_text, (SCREEN_WIDTH / 2 - win_text.get_width() / 2, SCREEN_HEIGHT / 2 - 150))
+            # play background music
+            bkgd_music.play(loops=-1)
+            MOUSE_POS = p.mouse.get_pos()
+            # change mouse hover color
+            PLAY_AGAIN_BUTTON.changeColor(MOUSE_POS)
+            PLAY_AGAIN_BUTTON.update(screen)
+            for event in p.event.get():
+                if event.type == p.QUIT:
+                    p.quit()
+                    sys.exit()
+                if event.type == p.MOUSEBUTTONDOWN:
+                    if PLAY_AGAIN_BUTTON.checkForInput(MOUSE_POS):
+                        start()
             # save score if s key is pressed
-            if event.key == p.K_s:
-                with open(file_name, "wb") as file:
-                    pickle.dump(score, file)
+            # if event.key == p.K_s:
+            #     with open(file_name, "wb") as file:
+            #         pickle.dump(score, file)
 
         if result == "lose":
             empty_groups()
