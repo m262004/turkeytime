@@ -20,8 +20,6 @@ clock = p.time.Clock()
 turkey = Turkey()
 turkey_group = p.sprite.Group()
 turkey_group.add(turkey)
-#fo_group = p.sprite.Group()
-#fo_group.add(FenceOpening())
 
 # initialize misc items
 level = 1
@@ -176,10 +174,6 @@ def play():
                 add_cow(1, cow.y, 0)
 
         draw_game_objects()
-        # holes.draw(screen)
-        # cows.draw(screen)
-        # fo_group.draw(screen)
-        # turkey_group.draw(screen)
 
         cows.update()
         turkey_group.update()
@@ -278,9 +272,11 @@ def result_screen(result):
             # high_score = load_high_score()
             # high_score_text = get_font(50).render(f"Your score: {score}  High score: {high_score}", True, "White")
             # screen.blit(high_score_text, (SCREEN_WIDTH / 2 - win_text.get_width() / 2, SCREEN_HEIGHT / 2 - 200))
+
             # play background music
             bkgd_music.play(loops=-1)
             MOUSE_POS = p.mouse.get_pos()
+            
             # change mouse hover color
             PLAY_AGAIN_BUTTON.changeColor(MOUSE_POS)
             PLAY_AGAIN_BUTTON.update(screen)
