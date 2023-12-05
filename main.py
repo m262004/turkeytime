@@ -276,7 +276,7 @@ def result_screen(result):
             # play background music
             bkgd_music.play(loops=-1)
             MOUSE_POS = p.mouse.get_pos()
-            
+
             # change mouse hover color
             PLAY_AGAIN_BUTTON.changeColor(MOUSE_POS)
             PLAY_AGAIN_BUTTON.update(screen)
