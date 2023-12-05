@@ -106,8 +106,6 @@ def reset_level():
 #timer = 60  # 5 minutes in seconds
 timer_event = p.USEREVENT + 1  # create a custom event
 p.time.set_timer(timer_event, 1000)  # set the timer to trigger every second
-#level_font = p.font.Font("assets/gamefont.ttf", 24)
-#level_text = level_font.render(f"Level: {level} of 4", True, "White")
 
 run = True
 #define screens
@@ -116,6 +114,7 @@ def play():
     lives = NUM_LIVES
     reset_level()
     timer = 167 #in seconds
+    score = 0
     while run:
         #set frame rate
         clock.tick(60)
@@ -134,15 +133,15 @@ def play():
 
         # draw the level
         level_font = p.font.Font("assets/gamefont.ttf", 24)
-        level_text = level_font.render(f"Level: {level} of 4", True, "White")
+        level_text = level_font.render(f"Level: {level} of 4", True, "Black")
         screen.blit(level_text, (10, HEART_SIZE + 10))
 
         # timer
         # timer, time_text2 = 300, '10'.rjust(3)
         # p.time.set_timer(p.USEREVENT, 1000)
-        time_font = p.font.Font("assets/gamefont.ttf", 24)
+        time_font = p.font.Font("assets/gamefont.ttf", 32)
         time_text = time_font.render(f"{timer // 60:02d}:{timer % 60:02d}", True, (0, 0, 0))
-        screen.blit(time_text, (SCREEN_WIDTH - 80, 30))
+        screen.blit(time_text, (SCREEN_WIDTH - 125, 15))
 
 
         for event in p.event.get():
@@ -159,9 +158,9 @@ def play():
                     result_screen("lose")
             if lives < 0: # or timer == 0:
                 result_screen("lose")
-            if  p.key.get_pressed()[p.K_s]:
-                with open(file_name, "wb") as file:
-                    pickle.dump(score, file)
+            # if  p.key.get_pressed()[p.K_s]:
+            #     with open(file_name, "wb") as file:
+            #         pickle.dump(score, file)
 
             # elif event.type == timer_event:
             #     timer -= 1
@@ -207,6 +206,13 @@ def play():
                 add_hole(1)
             #end screen
             if level > 4:
+                high_score = load_high_score()
+                score = int(timer * 10)
+                def retrieve_score():
+                    return score
+                if score > high_score:
+                    high_score = score
+                    save_high_scores(high_score)
                 result_screen("win")
 
         # if cow goes off-screen
@@ -313,6 +319,10 @@ def result_screen(result):
             empty_groups()
             win_text = get_font(100).render("You Won!", True, "White")
             screen.blit(win_text, (SCREEN_WIDTH / 2 - win_text.get_width() / 2, SCREEN_HEIGHT / 2 - 150))
+            # load and display high score
+            high_score = load_high_score()
+            high_score_text = get_font(50).render(f"Your score: {score}  High score: {high_score}", True, "White")
+            screen.blit(high_score_text, (SCREEN_WIDTH / 2 - win_text.get_width() / 2, SCREEN_HEIGHT / 2 - 200))
             # play background music
             bkgd_music.play(loops=-1)
             MOUSE_POS = p.mouse.get_pos()
@@ -326,10 +336,6 @@ def result_screen(result):
                 if event.type == p.MOUSEBUTTONDOWN:
                     if PLAY_AGAIN_BUTTON.checkForInput(MOUSE_POS):
                         start()
-            # save score if s key is pressed
-            # if event.key == p.K_s:
-            #     with open(file_name, "wb") as file:
-            #         pickle.dump(score, file)
 
         if result == "lose":
             empty_groups()

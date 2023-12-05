@@ -89,9 +89,6 @@ def load_high_score():
     except FileNotFoundError:
         return 0
 
-    if score > high_score:
-        high_score = score
-        save_high_scores(high_score)
 def save_high_scores(score):
     with open("high_score.txt", "w") as file:
         file.write(str(score))
