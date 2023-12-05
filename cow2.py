@@ -1,7 +1,6 @@
 import pygame as p
 import random
 from game_parameters import *
-#from cow2 import *
 
 class Cow(p.sprite.Sprite):
     def __init__(self, x, y):
@@ -24,9 +23,6 @@ class Cow(p.sprite.Sprite):
     def update(self):
         self.x += self.speed
         self.rect.x = self.x
-
-        # if self.rect.x > SCREEN_WIDTH:
-        #     self.rect.x = -self.rect.width
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

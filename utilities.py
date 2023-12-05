@@ -28,27 +28,6 @@ def draw_background(surf):
     text = title_font.render("Turkey Time", True, (0, 0, 0))
     surf.blit(text, (SCREEN_WIDTH / 2 - text.get_width() / 2, 10))
 
-# Define the countdown function
-# def countdown(time_in_sec, type_screen_here):
-#     # Loop until the time is zero
-#     while time_in_sec:
-#         # Format the time as minutes and seconds
-#         mins, secs = divmod(time_in_sec, 60)
-#         timeformat = '{:02d}:{:02d}'.format(mins, secs)
-#         # Print the time with a carriage return
-#         #print(timeformat, end='\r')
-#         time_font = p.font.Font("assets/gamefont.ttf", 24)
-#         time = time_font.render(timeformat, True, (0, 0, 0))
-#         type_screen_here.blit(time, (SCREEN_WIDTH - time.get_width(), 10))
-#         # Wait for one second
-#         time.sleep(1)
-#         # Decrement the time by one second
-#         time_in_sec -= 1
-#     for event in p.event.get():
-#         if event.type == p.QUIT:
-#             p.quit()
-#             sys.exit()
-
 
 def add_cow(num_cows, y_pos, x_pos = random.randint(0, SCREEN_WIDTH)):
     for i in range(num_cows):

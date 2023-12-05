@@ -19,17 +19,21 @@ FENCE_OPENING_HEIGHT = FENCE_HEIGHT + 5
 
 #heart dimensions
 HEART_SIZE = int(512/10)
+
 #hole dimenstions
 HOLE_WIDTH = int(540/10)
 HOLE_HEIGHT = int(360/10)
-
 
 # cow dimensions
 COW_WIDTH = int(7510/90)
 COW_HEIGHT = int(4240/90)
 
+#instruction page dimensions
+I_WIDTH = int(960)
+I_HEIGHT = int(540)
+
 # speeds are in pixels per frame and frame rate is 1/60 seconds
-TURKEY_SPEED = 1
+TURKEY_SPEED = 1.2
 COW_SPEED_MIN = .5
 COW_SPEED_MAX = 2
 
