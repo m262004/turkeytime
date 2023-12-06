@@ -8,7 +8,7 @@ from fenceopening import *
 
 def draw_background(surf):
 # load images
-    fenceog = p.image.load("assets/fence.png").convert()
+    fenceog = p.image.load("assets/fence.png")
     fence = p.transform.scale(fenceog, (FENCE_WIDTH, FENCE_HEIGHT))
     grass = p.image.load("assets/grass.png").convert()
 

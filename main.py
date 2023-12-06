@@ -279,7 +279,7 @@ def result_screen(result):
             if score > high_score:
                 high_score = score
                 save_high_scores(high_score)
-            high_score_text = get_font(15).render(f"Your score: {score}  High score: {high_score}", True, "White")
+            high_score_text = get_font(30).render(f"Your score: {score}  High score: {high_score}", True, "White")
             screen.blit(high_score_text, (SCREEN_WIDTH / 2 - high_score_text.get_width() / 2, SCREEN_HEIGHT / 2 - 200))
 
             # play background music

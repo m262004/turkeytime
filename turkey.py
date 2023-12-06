@@ -10,7 +10,7 @@ class Turkey(p.sprite.Sprite):
         self.speed = TURKEY_SPEED
         self.width = TURKEY_WIDTH
         self.height = TURKEY_HEIGHT
-        self.turkey = p.image.load('assets/turkey.png').convert()
+        self.turkey = p.image.load('assets/turkey.png')
         # resize
         self.image = p.transform.scale(self.turkey, (self.width, self.height))
         self.rect = self.image.get_rect()
