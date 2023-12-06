@@ -8,11 +8,9 @@ from fenceopening import *
 
 def draw_background(surf):
 # load images
-    fenceog = p.image.load("assets/fence.png")
+    fenceog = p.image.load("assets/fence.png").convert()
     fence = p.transform.scale(fenceog, (FENCE_WIDTH, FENCE_HEIGHT))
     grass = p.image.load("assets/grass.png").convert()
-# use the png transparency
-    #fence.set_colorkey((0, 0, 0))
 
 # fill the screen with grass
     for x in range(0, SCREEN_WIDTH, TILE_SIZE):
@@ -37,7 +35,8 @@ def add_cow(num_cows, y_pos, x_pos = random.randint(0, SCREEN_WIDTH)):
 class Hole(p.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = p.image.load('assets/hole.png')
+        self.image = p.image.load('assets/hole.png').convert()
+        self.image.set_colorkey((0, 0, 0))
         self.image = p.transform.scale(self.image, (HOLE_WIDTH, HOLE_HEIGHT))
 
         self.x = random.randint(HOLE_WIDTH, SCREEN_WIDTH - HOLE_WIDTH)

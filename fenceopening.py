@@ -5,7 +5,7 @@ from game_parameters import *
 class FenceOpening(p.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = p.image.load('assets/grass.png')
+        self.image = p.image.load('assets/grass.png').convert()
         self.image = p.transform.scale(self.image, (FENCE_OPENING_WIDTH, FENCE_OPENING_HEIGHT))
 
         self.x = random.randint(FENCE_WIDTH, SCREEN_WIDTH-FENCE_WIDTH)

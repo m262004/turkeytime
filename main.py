@@ -16,15 +16,15 @@ screen = p.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 p.display.set_caption("Turkey Time")
 clock = p.time.Clock()
 
-#create sprite groups
+#create sprite group
 turkey = Turkey()
 turkey_group = p.sprite.Group()
 turkey_group.add(turkey)
 
 # initialize misc items
-level = 1
+#level = 1
 global score
-lives = NUM_LIVES
+#lives = NUM_LIVES
 result = ""
 bkgd_music = p.mixer.Sound("assets/backgroundmusic.wav")
 moo = p.mixer.Sound("assets/moo.wav")
@@ -35,7 +35,7 @@ heart = p.transform.scale(heart, (HEART_SIZE,HEART_SIZE))
 heart.set_colorkey((0, 0, 0))
 
 #add a specified number of cows at a random y position on the screen without overlapping the cows
-cowypos = list(range(TURKEY_START_Y + COW_HEIGHT + 10, FENCE_Y_POS - 10, COW_HEIGHT))
+cowypos = list(range(TURKEY_START_Y + COW_HEIGHT + 10, FENCE_Y_POS - 10, int(COW_HEIGHT/4*3)))
 
 def get_font(size): # Returns font in the desired size
     return p.font.Font("assets/gamefont.ttf", size)
@@ -56,7 +56,6 @@ def draw_game_objects():
     cows.draw(screen)
     fo_group.draw(screen)
     turkey_group.draw(screen)
-
 def update_game_objects():
     cows.update()
     turkey_group.update()
@@ -78,7 +77,7 @@ def reset_level():
 timer_event = p.USEREVENT + 1  # create a custom event
 p.time.set_timer(timer_event, 1000)  # set the timer to trigger every second
 
-#main loop
+#main loop/functions
 run = True
 background = screen.copy()
 draw_background(background)
@@ -151,13 +150,15 @@ def play():
             reset_level()
             if level == 2:
                 add_cow(2, random.choice(cowypos))
-                add_hole(1)
+                add_hole(2)
             if level == 3:
                 add_cow(3, random.choice(cowypos))
-                add_hole(1)
-            if level == 4:
                 add_cow(3, random.choice(cowypos))
-                add_hole(1)
+                add_hole(2)
+            if level == 4:
+                add_cow(2, random.choice(cowypos))
+                add_cow(2, random.choice(cowypos))
+                add_hole(4)
             #end screen
             if level > 4:
                 score = int(timer * 10)
@@ -207,7 +208,7 @@ def instructions():
 
         OPTIONS_MOUSE_POS = p.mouse.get_pos()
 
-        instruction_img = p.image.load("assets/instructions.png")
+        instruction_img = p.image.load("assets/instructions.png").convert()
         instruction_img = p.transform.scale(instruction_img, (I_WIDTH, I_HEIGHT))
         screen.blit(instruction_img, (SCREEN_HEIGHT/2 - instruction_img.get_height()/2 - 50, SCREEN_WIDTH/2 - instruction_img.get_width()/2 + 70))
 
@@ -299,7 +300,7 @@ def result_screen(result):
         if result == "lose":
             empty_groups()
             lose_text = get_font(100).render("You Lost", True, "White")
-            screen.blit(lose_text, (SCREEN_WIDTH/2 - lose_text.get_width()/2, SCREEN_HEIGHT/2 - 150))
+            screen.blit(lose_text, (SCREEN_WIDTH/2 - lose_text.get_width()/2, SCREEN_HEIGHT/2 - 160))
             # play background music
             bkgd_music.play(loops=-1)
             MOUSE_POS = p.mouse.get_pos()
