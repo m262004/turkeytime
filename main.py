@@ -23,6 +23,7 @@ turkey_group.add(turkey)
 
 # initialize misc items
 level = 1
+global score
 lives = NUM_LIVES
 result = ""
 bkgd_music = p.mixer.Sound("assets/backgroundmusic.wav")
@@ -87,7 +88,8 @@ def play():
     level = 1
     lives = NUM_LIVES
     reset_level()
-    timer = 120 #in seconds
+    timer = 120 # 2 min in seconds
+    global score
     score = 0
     while run:
         #set frame rate
@@ -158,6 +160,7 @@ def play():
                 add_hole(1)
             #end screen
             if level > 4:
+                score = int(timer * 10)
                 # high_score = load_high_score()
                 # score = int(timer * 10)
                 # def retrieve_score():
@@ -265,13 +268,18 @@ def result_screen(result):
         mouse_pos = p.mouse.get_pos()
 
         if result == "win":
+            global score
             empty_groups()
             win_text = get_font(100).render("You Won!", True, "White")
             screen.blit(win_text, (SCREEN_WIDTH / 2 - win_text.get_width() / 2, SCREEN_HEIGHT / 2 - 150))
+
             # load and display high score
-            # high_score = load_high_score()
-            # high_score_text = get_font(50).render(f"Your score: {score}  High score: {high_score}", True, "White")
-            # screen.blit(high_score_text, (SCREEN_WIDTH / 2 - win_text.get_width() / 2, SCREEN_HEIGHT / 2 - 200))
+            high_score = load_high_score()
+            if score > high_score:
+                high_score = score
+                save_high_scores(high_score)
+            high_score_text = get_font(15).render(f"Your score: {score}  High score: {high_score}", True, "White")
+            screen.blit(high_score_text, (SCREEN_WIDTH / 2 - high_score_text.get_width() / 2, SCREEN_HEIGHT / 2 - 200))
 
             # play background music
             bkgd_music.play(loops=-1)
@@ -298,6 +306,10 @@ def result_screen(result):
             # change mouse hover color
             PLAY_AGAIN_BUTTON.changeColor(MOUSE_POS)
             PLAY_AGAIN_BUTTON.update(screen)
+            # load and display previous high score
+            high_score = load_high_score()
+            high_score_text = get_font(30).render(f"High score: {high_score}", True, "White")
+            screen.blit(high_score_text, (SCREEN_WIDTH / 2 - high_score_text.get_width() / 2, SCREEN_HEIGHT / 2 - 200))
             for event in p.event.get():
                 if event.type == p.QUIT:
                     p.quit()
